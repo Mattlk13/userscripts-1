@@ -5,7 +5,7 @@
 // @description Creates direct download links for subtitles on opensubtitles.org
 // @icon        https://raw.githubusercontent.com/Ede123/userscripts/master/icons/OpenSubtitles.png
 // @author      Eduard Braun <eduard.braun2@gmx.de>
-// @license     GPL-3.0+; http://www.gnu.org/copyleft/gpl.html
+// @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
 // @include     http://www.opensubtitles.org/*
 // @include     https://www.opensubtitles.org/*
 // @grant       GM_addStyle
@@ -21,13 +21,13 @@ GM_addStyle('#loginBoxSubs{display:none}');
 
 
 function modifyButton() {
-	// check for download button on page
-	var downloadButton = document.getElementById('bt-dwl') || document.getElementById('bt-dwl-bt');
-	if(!downloadButton) return;
+    // check for download button on page
+    var downloadButton = document.getElementById('bt-dwl') || document.getElementById('bt-dwl-bt');
+    if(!downloadButton) return;
 
-	// extract direct link from "dowSub()" function
-	var re1 = /product_download_url=([^'"]+)'/;
-	var downloadURL = document.body.innerHTML.match(re1)[1];
+    // extract direct link from "dowSub()" function
+    var re1 = /product_download_url=([^'"]+)'/;
+    var downloadURL = document.body.innerHTML.match(re1)[1];
     downloadURL = decodeURIComponent(downloadURL);
 
     var re2 = /(.+)\/(vrf-[a-z0-9]+)$/;
@@ -35,12 +35,12 @@ function modifyButton() {
     downloadURL = match[1].replace('download', 'download/' + match[2]);
 
     // create direct link avoiding advert page for "Open Subtitles MKV Player"
-	downloadButton.href = downloadURL;
-	downloadButton.removeAttribute("onclick");
+    downloadButton.href = downloadURL;
+    downloadButton.removeAttribute("onclick");
 
-	// remove event listeners from the download button (by cloning and replacing it)
-	// to prevent any unwanted behavior
-	downloadButton.parentNode.replaceChild(downloadButton.cloneNode(true), downloadButton);
+    // remove event listeners from the download button (by cloning and replacing it)
+    // to prevent any unwanted behavior
+    downloadButton.parentNode.replaceChild(downloadButton.cloneNode(true), downloadButton);
 }
 
 
